@@ -10,6 +10,7 @@
 		2EC138D229ED2452A4DA02C3 /* Pods_PixelCity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858A1201B2C54FA7FF63490F /* Pods_PixelCity.framework */; };
 		F926CDBF21370DCD00271AA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F926CDBE21370DCD00271AA9 /* Constants.swift */; };
 		F926CDC2213724F200271AA9 /* FlickrManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F926CDC1213724F200271AA9 /* FlickrManager.swift */; };
+		F926CDC42137420500271AA9 /* PopImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F926CDC32137420500271AA9 /* PopImageVC.swift */; };
 		F933F98E2136BA3D008D47B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F933F98D2136BA3D008D47B2 /* AppDelegate.swift */; };
 		F933F9902136BA3D008D47B2 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F933F98F2136BA3D008D47B2 /* MapVC.swift */; };
 		F933F9932136BA3D008D47B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F933F9912136BA3D008D47B2 /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		8AC694F11529FBE5DCAE0CB9 /* Pods-PixelCity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelCity.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PixelCity/Pods-PixelCity.debug.xcconfig"; sourceTree = "<group>"; };
 		F926CDBE21370DCD00271AA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F926CDC1213724F200271AA9 /* FlickrManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrManager.swift; sourceTree = "<group>"; };
+		F926CDC32137420500271AA9 /* PopImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopImageVC.swift; sourceTree = "<group>"; };
 		F933F98A2136BA3D008D47B2 /* PixelCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F933F98D2136BA3D008D47B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F933F98F2136BA3D008D47B2 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				F933F98F2136BA3D008D47B2 /* MapVC.swift */,
+				F926CDC32137420500271AA9 /* PopImageVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -236,11 +239,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-PixelCity/Pods-PixelCity-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -259,6 +264,7 @@
 				F933F9A62137077D008D47B2 /* PhotoCollectionViewCell.swift in Sources */,
 				F933F9A42136DB4C008D47B2 /* DroppablePin.swift in Sources */,
 				F926CDC2213724F200271AA9 /* FlickrManager.swift in Sources */,
+				F926CDC42137420500271AA9 /* PopImageVC.swift in Sources */,
 				F933F98E2136BA3D008D47B2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

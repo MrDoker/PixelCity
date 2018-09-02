@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" rotateEnabled="NO" showsUserLocation="YES" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbG-2m-q4d">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbG-2m-q4d">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="666"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oXj-Mp-KdI" userLabel="CollectionView">
@@ -82,11 +82,61 @@
                         <outlet property="mapView" destination="UbG-2m-q4d" id="aHK-Rw-IKi"/>
                         <outlet property="pullUpView" destination="oXj-Mp-KdI" id="SIh-5a-Ktd"/>
                         <outlet property="pullUpViewHeightConstraint" destination="VmC-WQ-MlN" id="af3-BK-iJn"/>
+                        <segue destination="t3b-G3-my9" kind="presentation" identifier="presentPopImageVC" id="RYv-fw-xHO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="117.59999999999999" y="117.39130434782609"/>
+        </scene>
+        <!--Pop ImageVC-->
+        <scene sceneID="Yvy-Vg-UDk">
+            <objects>
+                <viewController storyboardIdentifier="popVC" id="t3b-G3-my9" customClass="PopImageVC" customModule="PixelCity" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cK3-yR-OdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7NP-tB-UhX">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nyN-g8-S3Y">
+                                <rect key="frame" x="87" y="622" width="200" height="25"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doble-tap to dismiss" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1tQ-yx-asu">
+                                        <rect key="frame" x="18.5" y="1" width="163" height="23.5"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="1tQ-yx-asu" firstAttribute="centerY" secondItem="nyN-g8-S3Y" secondAttribute="centerY" id="FqQ-qT-VuU"/>
+                                    <constraint firstItem="1tQ-yx-asu" firstAttribute="centerX" secondItem="nyN-g8-S3Y" secondAttribute="centerX" id="NJj-tw-031"/>
+                                    <constraint firstAttribute="height" constant="25" id="hVS-Em-UTA"/>
+                                    <constraint firstAttribute="width" constant="200" id="q8i-Yv-hr7"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7NP-tB-UhX" firstAttribute="trailing" secondItem="yTB-ZS-dcd" secondAttribute="trailing" id="2YK-OY-HvP"/>
+                            <constraint firstItem="nyN-g8-S3Y" firstAttribute="centerX" secondItem="cK3-yR-OdC" secondAttribute="centerX" id="65e-ML-kGa"/>
+                            <constraint firstItem="7NP-tB-UhX" firstAttribute="bottom" secondItem="yTB-ZS-dcd" secondAttribute="bottom" id="AWl-9b-K4P"/>
+                            <constraint firstItem="yTB-ZS-dcd" firstAttribute="bottom" secondItem="nyN-g8-S3Y" secondAttribute="bottom" constant="20" id="ELP-Vl-Q59"/>
+                            <constraint firstItem="7NP-tB-UhX" firstAttribute="leading" secondItem="yTB-ZS-dcd" secondAttribute="leading" id="iXK-vm-pdg"/>
+                            <constraint firstItem="7NP-tB-UhX" firstAttribute="top" secondItem="cK3-yR-OdC" secondAttribute="top" id="xdf-Yc-It4"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yTB-ZS-dcd"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="7NP-tB-UhX" id="Isk-1j-jjd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HtS-ev-edG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="852" y="116.49175412293854"/>
         </scene>
     </scenes>
     <resources>

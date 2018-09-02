@@ -35,7 +35,8 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         collectionView?.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: "photoCell")
         collectionView?.delegate = self
         collectionView?.dataSource = self
-        
+        collectionView?.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.9529411765, blue: 0.9529411765, alpha: 1)
+        registerForPreviewing(with: self, sourceView: collectionView!)
         pullUpView.addSubview(collectionView!)
     }
     
@@ -68,6 +69,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
+        FlickrManager.instance.cancelAllSessions()
     }
     
     func addSpinner() {
@@ -103,6 +105,12 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "presentPopImageVC" {
+            let popVC = segue.destination as? PopImageVC
+            popVC?.imageToDisplay = FlickrManager.instance.imageArray[sender as! Int]
+        }
+    }
 }
 
 extension MapVC: MKMapViewDelegate {
@@ -124,15 +132,12 @@ extension MapVC: MKMapViewDelegate {
     }
     
     @objc func dropPinOnMap(sender: UITapGestureRecognizer) {
-        animateViewUp()
-        addSwipe()
-        addSpinner()
-        addProgressLabel()
-        
         mapView.removeAnnotations(mapView.annotations)
         
         let touchPoint = sender.location(in: mapView)
         let touchCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+        print("--------------")
+        print(touchCoordinate)
         
         let annotation = DroppablePin(coordinate: touchCoordinate, identifer: "droppablePin")
         mapView.addAnnotation(annotation)
@@ -140,8 +145,23 @@ extension MapVC: MKMapViewDelegate {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(touchCoordinate, regionRadius*2, regionRadius*2)
         mapView.setRegion(coordinateRegion, animated: true)
         
+        animateViewUp()
+        addSwipe()
+        addSpinner()
+        addProgressLabel()
+        FlickrManager.instance.cancelAllSessions()
+        collectionView?.reloadData()
+        
         FlickrManager.instance.retriveUrls(forAnnotation: annotation) { (success) in
-            
+            if success {
+                FlickrManager.instance.retrieveImages(label: self.progressLabel!, handeler: { (success) in
+                    if success {
+                        self.spinner?.removeFromSuperview()
+                        self.progressLabel?.removeFromSuperview()
+                        self.collectionView?.reloadData()
+                    }
+                })
+            }
         }
     }
 }
@@ -175,19 +195,39 @@ extension MapVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //number of items in array
-        return 4
+        return FlickrManager.instance.imageArray.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell {
+            let imageView = UIImageView(image: FlickrManager.instance.imageArray[indexPath.row])
+            imageView.contentMode = .scaleAspectFill
+            cell.addSubview(imageView)
             return cell
         }
-        
         return UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "presentPopImageVC", sender: indexPath.row)
     }
 }
 
-
+extension MapVC: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = collectionView?.indexPathForItem(at: location), let cell = collectionView?.cellForItem(at: indexPath) else { return nil}
+        
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: "popVC") as? PopImageVC else { return nil}
+        popVC.imageToDisplay = FlickrManager.instance.imageArray[indexPath.row]
+        previewingContext.sourceRect = cell.contentView.frame
+        return popVC
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
+    }
+    
+    
+}
 
 
 
