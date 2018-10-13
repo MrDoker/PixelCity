@@ -109,6 +109,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         if segue.identifier == "presentPopImageVC" {
             let popVC = segue.destination as? PopImageVC
             popVC?.imageToDisplay = FlickrManager.instance.imageArray[sender as! Int]
+            popVC?.photo = FlickrManager.instance.photoArray[sender as! Int]
         }
     }
 }
@@ -194,9 +195,11 @@ extension MapVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return FlickrManager.instance.imageArray.count
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell {
             let imageView = UIImageView(image: FlickrManager.instance.imageArray[indexPath.row])
@@ -218,6 +221,7 @@ extension MapVC: UIViewControllerPreviewingDelegate {
         
         guard let popVC = storyboard?.instantiateViewController(withIdentifier: "popVC") as? PopImageVC else { return nil}
         popVC.imageToDisplay = FlickrManager.instance.imageArray[indexPath.row]
+        popVC.photo = FlickrManager.instance.photoArray[indexPath.row]
         previewingContext.sourceRect = cell.contentView.frame
         return popVC
     }

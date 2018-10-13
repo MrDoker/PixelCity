@@ -14,17 +14,19 @@ import SwiftyJSON
 class FlickrManager {
     static let instance = FlickrManager()
     
-    var imageUrlArray = [String]()
+    //var imageUrlArray = [String]()
+    var photoArray = [Photo]()
     var imageArray = [UIImage]()
     
     private func flickrURL(apiKey: String, withAnnotation annotation: DroppablePin, andNumberOfPhotos number: Int) -> String{
-        return "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&lat=\(annotation.coordinate.latitude)&lon=\(annotation.coordinate.longitude)&radius=1&radius_units=km&per_page=\(number)&format=json&nojsoncallback=1"
+        return "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&lat=\(annotation.coordinate.latitude)&lon=\(annotation.coordinate.longitude)&radius=1&radius_units=km&extras=description%2C+date_upload%2C+owner_name+&per_page=\(number)&format=json&nojsoncallback=1"
     }
-    
+
     
     func retriveUrls(forAnnotation annotation: DroppablePin, handler: @escaping (_ success: Bool)->()) {
-        imageUrlArray.removeAll()
+        //imageUrlArray.removeAll()
         imageArray.removeAll()
+        photoArray.removeAll()
         
         let url = flickrURL(apiKey: apiKey, withAnnotation: annotation, andNumberOfPhotos: 40)
         
@@ -43,7 +45,19 @@ class FlickrManager {
                             let secret = photo["secret"].string
                             
                             let postURL = "https://farm\(farm!).staticflickr.com/\(server!)/\(id!)_\(secret!)_h_d.jpg"
-                            self.imageUrlArray.append(postURL)
+                            
+                            let title = photo["title"].string
+                            let dateUpload = photo["dateupload"].string
+                            let ownerName = photo["ownername"].string
+
+                            let descriptionJSON = JSON(photo["description"])
+                            let description = descriptionJSON["_content"].string
+                            
+                            let newPhoto = Photo(url: postURL, description: description ?? "",
+                                                 dateUpload: dateUpload ?? "", ownerName: ownerName ?? "", title: title ?? "")
+                            self.photoArray.append(newPhoto)
+                            
+                            //self.imageUrlArray.append(postURL)
                         }
                         handler(true)
                     }
@@ -59,13 +73,13 @@ class FlickrManager {
     }
     
     func retrieveImages(label: UILabel,handeler: @escaping (_ success:Bool)->()) {
-        for imageURL in imageUrlArray {
-            Alamofire.request(imageURL).responseImage { (response) in
+        for image in photoArray {
+            Alamofire.request(image.url).responseImage { (response) in
                 guard let image = response.result.value else  {return}
                 self.imageArray.append(image)
-                label.text = "\(self.imageArray.count)/\(self.imageUrlArray.count) IMAGES DOWNLOADED"
+                label.text = "\(self.imageArray.count)/\(self.photoArray.count) IMAGES DOWNLOADED"
                 
-                if self.imageArray.count == self.imageUrlArray.count {
+                if self.imageArray.count == self.photoArray.count {
                     handeler(true)
                 }
             }
